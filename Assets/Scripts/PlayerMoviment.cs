@@ -24,7 +24,7 @@ public class PlayerMoviment : MonoBehaviour
 
     private void Andar()
     {
-        inputH = Input.GetAxis("Horizontal");
+        inputV = Input.GetAxis("Vertical");
         transform.position += new Vector3(0, 0, inputH * speed * Time.deltaTime);
         if(Input.GetKey(KeyCode.W))
         {
