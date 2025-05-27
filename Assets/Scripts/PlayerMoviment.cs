@@ -1,13 +1,15 @@
 using UnityEngine;
 
-public class PlayerMoviment : MonoBehaviour
+public class PlayerMovement : MonoBehaviour
 {
     private Rigidbody rb;
     private float inputH;
     private float inputV;
     private Animator animator;
-    [SerializeField] private float speed;
-    [SerializeField] private float jumpForce;
+    private bool estaNoChao = true;
+    private Vector3 anguloRotacao = new Vector3(0, 90, 0);
+    [SerializeField] private float velocidade;
+    [SerializeField] private float forcaPulo;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,25 +22,58 @@ public class PlayerMoviment : MonoBehaviour
     void Update()
     {
         Andar();
+        Girar();
+        Pular();
     }
 
     private void Andar()
     {
         inputV = Input.GetAxis("Vertical");
-        transform.position += new Vector3(0, 0, inputH * speed * Time.deltaTime);
-        if(Input.GetKey(KeyCode.W))
+        Vector3 moveDirection = transform.forward * inputV;
+        Vector3 moveForward = rb.position + moveDirection * velocidade * Time.deltaTime;
+        rb.MovePosition(moveForward);
+
+        if (Input.GetKey(KeyCode.W))
         {
             animator.SetBool("Andar", true);
+            animator.SetBool("AndarTras", false);
         }
-        else if (Input.GetKeyUp(KeyCode.W))
+        else if (Input.GetKey(KeyCode.S)) 
+        {
+            animator.SetBool("AndarTras", true);
+            animator.SetBool("Andar", false);
+        }
+        else
         {
             animator.SetBool("Andar", false);
+            animator.SetBool("AndarTras", false);
+        }
+    }
+
+    private void Girar()
+    {
+        inputH = Input.GetAxis("Horizontal");
+        Quaternion deltaRotation =
+            Quaternion.Euler(anguloRotacao * inputH * Time.deltaTime);
+        rb.MoveRotation(rb.rotation * deltaRotation);
+
+        if (Input.GetKey(KeyCode.A) ||
+                    Input.GetKey(KeyCode.D) ||
+                        Input.GetKey(KeyCode.LeftArrow) ||
+                            Input.GetKey(KeyCode.RightArrow))
+        {
+            animator.SetBool("Andar", true);
         }
     }
 
     private void Pular()
-    { 
-    
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            rb.AddForce(Vector3.up * forcaPulo, ForceMode.Impulse);
+            estaNoChao = false;
+            animator.SetTrigger("Pular");
+        }
     }
 
     private void Correr()
@@ -51,9 +86,9 @@ public class PlayerMoviment : MonoBehaviour
 
     }
 
-    private void interagir()
-    { 
-    
+    private void Interagir()
+    {
+
     }
 
     private void Pegar()
@@ -66,7 +101,7 @@ public class PlayerMoviment : MonoBehaviour
 
     }
 
-    private void Perfurar()
+    private void Magia()
     {
 
     }
