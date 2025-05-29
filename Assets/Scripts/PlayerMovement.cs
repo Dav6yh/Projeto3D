@@ -8,7 +8,8 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private bool estaNoChao = true;
     private float velocidadeAtual;
-    private bool estaVivo = true;
+    private SistemaDeVida sVida;
+    private bool morrer = true;
     private Vector3 anguloRotacao = new Vector3(0, 90, 0);
     [SerializeField] private float velocidadeCorrer;
     [SerializeField] private float velocidadeAndar;
@@ -20,12 +21,13 @@ public class PlayerMovement : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         velocidadeAtual = velocidadeAndar;
+        sVida = GetComponent<SistemaDeVida>();
     }
 
     // Update is called once per frame
     void Update()
     { 
-        if (estaVivo)
+        if (sVida.EstaVivo())
         {
             Andar();
             Girar();
@@ -34,7 +36,11 @@ public class PlayerMovement : MonoBehaviour
             Atacar();
             Perfurar();
         }
-       
+        else if (!sVida.EstaVivo() && morrer)
+        {
+            Morrer();
+        }
+
     }
 
     private void Andar()
@@ -102,9 +108,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Morrer()
     {
+        morrer = false;
         animator.SetBool("EstaVivo", false);
         animator.SetTrigger("Morrer");
-        estaVivo = false;
         rb.Sleep();
 
     }
@@ -136,17 +142,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void Hit()
+    {
+        animator.SetTrigger("Hit");
+    }
+
     private void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Floor"))
         {
             estaNoChao = true;
             animator.SetBool("EstaNoChao", true);
-        }
-
-        if (collision.gameObject.CompareTag("Fatal") && estaVivo)
-        {
-            Morrer();
         }
     }
 

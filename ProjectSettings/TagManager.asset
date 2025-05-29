@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 3
   tags:
   - Porta
-  - hidroMel
+  - Item
+  - Fatal
+  - Floor
   layers:
   - Default
   - TransparentFX
