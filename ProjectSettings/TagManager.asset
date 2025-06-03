@@ -8,6 +8,8 @@ TagManager:
   - Item
   - Fatal
   - Floor
+  - Interagir
+  - Chave
   layers:
   - Default
   - TransparentFX
