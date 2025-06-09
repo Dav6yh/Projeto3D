@@ -167,10 +167,9 @@ public class PlayerMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(0.5f);
         GameObject machado = Instantiate(machadoPreFab, miraMachado.transform.position, miraMachado.transform.rotation);
-        machado.transform.rotation *= Quaternion.Euler(0, -90, 0); 
+        machado.transform.rotation *= Quaternion.Euler(0, 180, 0); 
         Rigidbody rbMachado = machado.GetComponent<Rigidbody>();
         rbMachado.AddForce(miraMachado.transform.forward * forcaArremeco, ForceMode.Impulse);
-
     }
 
     private void OnCollisionStay(Collision collision)
