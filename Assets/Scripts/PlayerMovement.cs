@@ -218,6 +218,19 @@ public class PlayerMovement : MonoBehaviour
             Destroy(other.gameObject);
         }
 
+        if(other.CompareTag("Mana") && Input.GetKey(KeyCode.E))
+        {
+            Pegar();
+            sVida.CargaMana(50);
+            Destroy(other.gameObject);
+        }
+        else if (other.CompareTag("Vida") && Input.GetKey(KeyCode.E))
+        {
+            Pegar();
+            sVida.CargaVida(50);
+            Destroy(other.gameObject);
+        }
+
     }
 
 }
