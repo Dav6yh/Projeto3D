@@ -13,7 +13,6 @@ public class PlayerMovement : MonoBehaviour
     private bool morrer = true;
     private bool temChave = false;
     private int numeroChave = 0;
-    private SistemaInterativo sInterativo;
     private Vector3 anguloRotacao = new Vector3(0, 90, 0);
     [SerializeField] private float velocidadeCorrer;
     [SerializeField] private float velocidadeAndar;
@@ -29,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         velocidadeAtual = velocidadeAndar;
         sVida = GetComponent<SistemaDeVida>();
-        sInterativo = GetComponent<SistemaInterativo>();
     }
 
     // Update is called once per frame
@@ -192,36 +190,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Mana"))
-        {
-            sInterativo.ExibirInteragir();
-        }
-        else if (other.CompareTag("Vida"))
-        {
-            sInterativo.ExibirInteragir();
-        }
-        else if (other.CompareTag("Porta"))
-        {
-            if (other.gameObject.GetComponent<Porta>().PortaTrancada())
-            {
-                sInterativo.ExibirTrancado();
-            }
-            else if (!other.gameObject.GetComponent<Porta>().PortaTrancada())
-            {
-                sInterativo.ExibirInteragir();
-            }
-        }
-        else if (other.CompareTag("Chave"))
-        {
-            sInterativo.ExibirInteragir();
-        }
-        else if (other.CompareTag("Item"))
-        {
-            sInterativo.ExibirInteragir();
-        }
-    }
     private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Item") && Input.GetKey(KeyCode.E))
