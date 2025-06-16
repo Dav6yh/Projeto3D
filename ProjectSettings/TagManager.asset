@@ -10,8 +10,6 @@ TagManager:
   - Floor
   - Interagir
   - Chave
-  - Mana
-  - Vida
   layers:
   - Default
   - TransparentFX
